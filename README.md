@@ -3,8 +3,8 @@ This is a direct port of [Anthropic's filesystem editing tools](https://github.c
 
 I recommend using this server along with [mcp-server-commands](https://github.com/g0t4/mcp-server-commands)
 
-###***WARNING: This MCP server has NO access controls and relies entirely on your client's approval mechanisms. Use at your own risk. DO NOT automatically approve write operations, doing so basically gives the LLM permission to destroy your computer.***
-###***WARNING: This MCP server is NOT actively maintained. I may update it occasionally.***
+### ***WARNING: This MCP server has NO access controls and relies entirely on your client's approval mechanisms. Use at your own risk. DO NOT automatically approve write operations, doing so basically gives the LLM permission to destroy your computer.***
+### ***WARNING: This MCP server is NOT actively maintained. I may update it occasionally.***
 
 ## Usage
 Get the files on your computer.
