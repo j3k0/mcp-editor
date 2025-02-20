@@ -3,6 +3,8 @@ This is a direct port of [Anthropic's filesystem editing tools](https://github.c
 
 I recommend using this server along with [mcp-server-commands](https://github.com/g0t4/mcp-server-commands)
 
+<a href="https://glama.ai/mcp/servers/lnfcd9is5i"><img width="380" height="200" src="https://glama.ai/mcp/servers/lnfcd9is5i/badge" alt="mcp-editor MCP server" /></a>
+
 ### ***WARNING: This MCP server has NO access controls and relies entirely on your client's approval mechanisms. Use at your own risk. DO NOT automatically approve write operations, doing so basically gives the LLM permission to destroy your computer.***
 ### ***WARNING: This MCP server is NOT actively maintained, and is provided for reference (for example creating your own MCP server with proper access controls). I may update it occasionally.***
 
