@@ -1,4 +1,3 @@
-import * as path from 'path';
 import { promises as fs } from 'fs';
 import { exec } from 'child_process';
 import { promisify } from 'util';
@@ -16,8 +15,7 @@ import {
     readFile,
     writeFile,
     makeOutput,
-    validatePath,
-    truncateText
+    validatePath
 } from './utils.js';
 
 const execAsync = promisify(exec);

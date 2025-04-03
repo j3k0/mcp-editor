@@ -3,14 +3,12 @@ import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js"
 import { FileEditor } from "./editor.js";
 import {CallToolRequestSchema, ListToolsRequestSchema } from "@modelcontextprotocol/sdk/types.js";
 import {
-    CreateArgs,
     isCreateArgs,
     isInsertArgs,
     isStrReplaceArgs,
     isUndoEditArgs,
     isViewArgs,
-    ToolError,
-    ViewArgs
+    ToolError
 } from "./types.js";
 
 class EditorServer {
