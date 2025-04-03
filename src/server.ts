@@ -80,7 +80,7 @@ class EditorServer {
                     },
                     {
                         name: "string_replace",
-                        description: "Replace a string in a file with a new string",
+                        description: "Replace a string in a file with a new string. By default, replaces only if the string is unique. Use replace_all=true to replace all occurrences.",
                         inputSchema: {
                             type: "object",
                             properties: {
@@ -95,6 +95,10 @@ class EditorServer {
                                 new_str: {
                                     type: "string",
                                     description: "Replacement string (empty string if omitted)"
+                                },
+                                replace_all: {
+                                    type: "boolean",
+                                    description: "If true, replace all occurrences. Defaults to false."
                                 }
                             },
                             required: ["path", "old_str"]

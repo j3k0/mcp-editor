@@ -25,6 +25,7 @@ export interface StringReplaceArgs extends Record<string, unknown> {
     path: string;
     old_str: string;
     new_str?: string;
+    replace_all?: boolean;
 }
 
 export interface InsertArgs extends Record<string, unknown> {
@@ -52,7 +53,8 @@ export function isCreateArgs(args: Record<string, unknown>): args is CreateArgs 
 export function isStrReplaceArgs(args: Record<string, unknown>): args is StringReplaceArgs {
     return typeof args.path === "string" &&
         typeof args.old_str === "string" &&
-        (args.new_str === undefined || typeof args.new_str === "string");
+        (args.new_str === undefined || typeof args.new_str === "string") &&
+        (args.replace_all === undefined || typeof args.replace_all === "boolean");
 }
 
 export function isInsertArgs(args: Record<string, unknown>): args is InsertArgs {

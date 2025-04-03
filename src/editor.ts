@@ -99,25 +99,28 @@ export class FileEditor {
         const fileContent = await readFile(args.path);
         const oldStr = args.old_str.replace(/\t/g, '    ');
         const newStr = args.new_str?.replace(/\t/g, '    ') ?? '';
+        const replaceAll = args.replace_all ?? false; // Default to false if not provided
 
-        const occurrences = fileContent.split(oldStr).length - 1;
+        const regex = new RegExp(oldStr.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), replaceAll ? 'g' : '');
+        const occurrences = (fileContent.match(regex) || []).length;
+
         if (occurrences === 0) {
             throw new ToolError(
                 `No replacement was performed, old_str \`${args.old_str}\` did not appear verbatim in ${args.path}.`
             );
         }
 
-        if (occurrences > 1) {
+        if (!replaceAll && occurrences > 1) {
             const lines = fileContent.split('\n')
                 .map((line, idx) => line.includes(oldStr) ? idx + 1 : null)
                 .filter((idx): idx is number => idx !== null);
 
             throw new ToolError(
-                `No replacement was performed. Multiple occurrences of old_str \`${args.old_str}\` in lines ${lines}. Please ensure it is unique`
+                `No replacement was performed. Multiple occurrences of old_str \`${args.old_str}\` in lines ${lines}. Add more context, by include lines around the string to replace in old_str and new_str to ensure old_str is unique within the file, or set replace_all=true.` // Updated error message
             );
         }
 
-        const newContent = fileContent.replace(oldStr, newStr);
+        const newContent = fileContent.replace(regex, newStr);
         await writeFile(args.path, newContent);
 
         if (!this.fileHistory[args.path]) {
@@ -125,12 +128,15 @@ export class FileEditor {
         }
         this.fileHistory[args.path].push(fileContent);
 
-        const replacementLine = fileContent.split(oldStr)[0].split('\n').length;
+        // Snippet generation might need adjustment for multiple replacements, but let's keep it simple for now.
+        // It will show the area around the *first* replacement.
+        const firstOccurrenceIndex = fileContent.search(regex);
+        const replacementLine = fileContent.substring(0, firstOccurrenceIndex).split('\n').length;
         const startLine = Math.max(0, replacementLine - SNIPPET_LINES);
-        const endLine = replacementLine + SNIPPET_LINES + newStr.split('\n').length;
+        const endLine = replacementLine + SNIPPET_LINES + newStr.split('\n').length; // Approximate end line
         const snippet = newContent.split('\n').slice(startLine, endLine + 1).join('\n');
 
-        let successMsg = `The file ${args.path} has been edited. `;
+        let successMsg = `The file ${args.path} has been edited (${occurrences} replacement${occurrences > 1 ? 's' : ''} made). `;
         successMsg += makeOutput(snippet, `a snippet of ${args.path}`, startLine + 1);
         successMsg += 'Review the changes and make sure they are as expected. Edit the file again if necessary.';
 
